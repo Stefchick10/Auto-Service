@@ -1,10 +1,10 @@
 package org.pgu.stefan.store.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
+import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -12,23 +12,21 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "job")
 public class JobEntity {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+  @Id
+  @GeneratedValue
+  private Long id;
 
-    private String start_end_date;
+  private ZonedDateTime startedAt;
+  private ZonedDateTime finishedAt;
 
+  private Double priceRubles;
 
-    @JsonIgnore
-    @ManyToOne
-    private JobStatusEntity status;
+  @ManyToOne(optional = false)
+  private ServiceEntity service;
 
-    @OneToMany(mappedBy = "job")
-    private List<DeclareMasterEntity> DeclareMaster;
-
-    @ManyToOne
-    private CarEntity car;
-
+  @ManyToOne(optional = false)
+  private CarEntity car;
 }

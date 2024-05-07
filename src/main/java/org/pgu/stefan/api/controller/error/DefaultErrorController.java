@@ -21,44 +21,44 @@ import java.util.Optional;
 @Controller
 public class DefaultErrorController implements ErrorController {
 
-    public static final String PATH = "/error";
+  public static final String PATH = "/error";
 
-    ErrorAttributes errorAttributes;
+  ErrorAttributes errorAttributes;
 
-    public String getErrorPath() {
-        return PATH;
+  public String getErrorPath() {
+    return PATH;
+  }
+
+  @RequestMapping(PATH)
+  public ResponseEntity<ErrorDto> error(WebRequest webRequest) {
+
+    String errorCode = (String) webRequest.getAttribute(
+        RestException.ERROR_CODE_ATTRIBUTE_NAME,
+        RestException.ERROR_CODE_SCOPE
+    );
+
+    if (Objects.nonNull(errorCode)) {
+      webRequest.removeAttribute(RestException.ERROR_CODE_ATTRIBUTE_NAME, RestException.ERROR_CODE_SCOPE);
     }
 
-    @RequestMapping(PATH)
-    public ResponseEntity<ErrorDto> error(WebRequest webRequest) {
+    Map<String, Object> attributes = errorAttributes.getErrorAttributes(
+        webRequest,
+        ErrorAttributeOptions.of(ErrorAttributeOptions.Include.EXCEPTION, ErrorAttributeOptions.Include.MESSAGE)
+    );
 
-        String errorCode = (String) webRequest.getAttribute(
-                RestException.ERROR_CODE_ATTRIBUTE_NAME,
-                RestException.ERROR_CODE_SCOPE
+    HttpStatus httpStatus = Optional
+        .ofNullable(errorAttributes.getError(webRequest))
+        .map(exception -> HttpStatus.UNAUTHORIZED)
+        .orElseGet(() -> HttpStatus.valueOf((Integer) attributes.get("status")));
+
+    return ResponseEntity
+        .status(httpStatus.value())
+        .body(
+            ErrorDto.builder()
+                .error(httpStatus.getReasonPhrase())
+                .errorDescription((String) attributes.get("message"))
+                .errorCode(errorCode)
+                .build()
         );
-
-        if (Objects.nonNull(errorCode)) {
-            webRequest.removeAttribute(RestException.ERROR_CODE_ATTRIBUTE_NAME, RestException.ERROR_CODE_SCOPE);
-        }
-
-        Map<String, Object> attributes = errorAttributes.getErrorAttributes(
-                webRequest,
-                ErrorAttributeOptions.of(ErrorAttributeOptions.Include.EXCEPTION, ErrorAttributeOptions.Include.MESSAGE)
-        );
-
-        HttpStatus httpStatus = Optional
-                .ofNullable(errorAttributes.getError(webRequest))
-                .map(exception -> HttpStatus.UNAUTHORIZED)
-                .orElseGet(() -> HttpStatus.valueOf((Integer) attributes.get("status")));
-
-        return ResponseEntity
-                .status(httpStatus.value())
-                .body(
-                        ErrorDto.builder()
-                                .error(httpStatus.getReasonPhrase())
-                                .errorDescription((String) attributes.get("message"))
-                                .errorCode(errorCode)
-                                .build()
-                );
-    }
+  }
 }

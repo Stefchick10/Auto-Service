@@ -16,30 +16,31 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> exception(Exception e, WebRequest request) throws Exception {
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<Object> exception(Exception e,
+      WebRequest request) throws Exception {
 
-        log.error("Exception during execution of application", e);
+    log.error("Exception during execution of application", e);
 
-        return handleException(e, request);
-    }
+    return handleException(e, request);
+  }
 
-    @NonNull
-    @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException e,
-                                                                          @NonNull HttpHeaders headers,
-                                                                          @NonNull HttpStatusCode status,
-                                                                          @NonNull WebRequest request) {
+  @NonNull
+  @Override
+  protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException e,
+      @NonNull HttpHeaders headers,
+      @NonNull HttpStatusCode status,
+      @NonNull WebRequest request) {
 
-        String message = String.format("Parameter \"%s\" is missing", e.getParameterName());
+    String message = String.format("Parameter \"%s\" is missing", e.getParameterName());
 
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(
-                        ErrorDto.builder()
-                                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
-                                .errorDescription(message)
-                                .build()
-                );
-    }
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(
+            ErrorDto.builder()
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .errorDescription(message)
+                .build()
+        );
+  }
 }

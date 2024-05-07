@@ -4,33 +4,30 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "master")
 public class MasterEntity {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+  @Id
+  @GeneratedValue
+  private Long id;
 
-    private String firstName;
+  private String firstName;
 
-    private String secondName;
+  private String secondName;
 
-    private String lastName;
+  private String lastName;
 
-    private String phoneNumber;
+  private String phoneNumber;
 
-    @JsonIgnore
-    @ManyToOne
-    private ServiceEntity service;
+  private String experience;
 
-    @OneToMany(mappedBy = "DeclareMaster")
-    private List<DeclareMasterEntity> DeclareMaster;
-
+  @JsonIgnore
+  @ManyToOne(optional = false)
+  private CarStationEntity carStation;
 }

@@ -11,11 +11,11 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ErrorDto {
 
-    String error;
+  String error;
 
-    @JsonProperty("error_description")
-    String errorDescription;
+  @JsonProperty("error_description")
+  String errorDescription;
 
-    @JsonProperty("error_code")
-    String errorCode;
+  @JsonProperty("error_code")
+  String errorCode;
 }

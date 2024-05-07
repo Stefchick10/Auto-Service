@@ -1,11 +1,10 @@
 package org.pgu.stefan.store.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.Date;
 
 @Getter
 @Setter
@@ -13,18 +12,21 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "car")
 public class CarEntity {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+  @Id
+  @GeneratedValue
+  private Long id;
 
-    private String model;
+  private String model;
 
-    private String vinNumber;
+  private String vinNumber;
 
-    @JsonIgnore
-    @ManyToOne
-    private ClientEntity client;
+  private Date releaseDate;
+
+  @JsonIgnore
+  @ManyToOne(optional = false)
+  private ClientEntity client;
 
 }

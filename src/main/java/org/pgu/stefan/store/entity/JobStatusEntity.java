@@ -1,12 +1,10 @@
 package org.pgu.stefan.store.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.*;
+import org.pgu.stefan.domain.JobStatus;
 
-import java.util.List;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -14,20 +12,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "job_status")
 public class JobStatusEntity {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+  @Id
+  private Long jobId;
 
-    private String cancelled_order;
+  @Enumerated(EnumType.STRING)
+  private JobStatus status;
 
-    private String progress_order;
-
-    private String ready_order;
-
-
-    @OneToMany(mappedBy = "job")
-    private List<JobEntity> job;
-
+  private Date updatedAt;
 }
