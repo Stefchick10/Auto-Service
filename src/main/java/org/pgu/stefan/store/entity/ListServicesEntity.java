@@ -1,9 +1,10 @@
 package org.pgu.stefan.store.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -21,8 +22,7 @@ public class ListServicesEntity {
 
     private String price;
 
-
     @OneToOne(mappedBy = "job")
-    private List<JobEntity> job;
+    private JobEntity job;
 
 }

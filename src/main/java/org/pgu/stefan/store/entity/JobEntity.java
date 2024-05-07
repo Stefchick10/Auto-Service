@@ -25,7 +25,7 @@ public class JobEntity {
     @ManyToOne
     private JobStatusEntity status;
 
-    @OneToMany(mappedBy = "DeclareMaster")
+    @OneToMany(mappedBy = "job")
     private List<DeclareMasterEntity> DeclareMaster;
 
     @ManyToOne

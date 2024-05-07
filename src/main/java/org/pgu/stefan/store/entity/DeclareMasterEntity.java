@@ -1,7 +1,10 @@
 package org.pgu.stefan.store.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 @Getter
@@ -26,7 +29,6 @@ public class DeclareMasterEntity {
 
     @ManyToOne
     private JobEntity job;
-
 
 
 }

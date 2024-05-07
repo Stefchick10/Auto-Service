@@ -1,7 +1,6 @@
 package org.pgu.stefan.api.controller.error;
 
 import lombok.extern.log4j.Log4j2;
-import org.pgu.stefan.api.controller.error.ErrorDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
